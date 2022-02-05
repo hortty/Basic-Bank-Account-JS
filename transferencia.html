@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF=8">
+        <title>Pagina de transferencia</title>
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <div align="left">
+            <button id="voltar" type="button" onClick="voltarHome()">←</button><label for="voltar">&nbsp;&nbsp; Voltar</label>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <div align="center" style="background-color: black;padding: 18px;">
+            <div align="center" id="titulo" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 2px;">
+                <h2>TRANSACOES</h2>
+            </div>
+            <br>
+            <div align="center" id="operacoes" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 4px;">
+                <h4>Consultar Saldo</h4><h4>Depositar dinheiro</h4><h4>Retirar dinheiro</h4>
+                <select>
+                    <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Escolha uma opção:</option>
+                    <option onClick="consultar();" value=1>Consultar Saldo Cliente</option>
+                    <option onClick="depositar();" value=2>Depositar Dinheiro Banco</option>
+                    <option onClick="retirar();" value=3>Retirar Dinheiro Banco</option>
+                </select>
+            </div>
+            <p>teste</p>
+        </div>
+    </body>
+</html>

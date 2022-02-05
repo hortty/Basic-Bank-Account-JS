@@ -115,10 +115,8 @@ class Banco {
 function abrirBanco(num) {
     let inp='',inp2='';
     for(i=0;i<num;i++) {
-        console.log("Qual o nome do banco?");
-        inp = prompt();
-        console.log("Qual a cidade em que o banco se situa?");
-        inp2 = prompt();
+        inp = prompt("Qual o nome do banco?");
+        inp2 = prompt("Qual a cidade em que o banco se situa?");
         banco[b] = new Banco(b);
         banco[b].nome_banco=inp;
         banco[b].cidade=inp2;
@@ -129,26 +127,21 @@ function abrirBanco(num) {
 function abrirConta(num) {
     let inp='',inp2='',inp3='',inp4='',inp5='',inp6='';
     for(i=0;i<num;i++) {
-        console.log("Qual o nome do cliente?");
-        inp = prompt();
-        console.log("Qual o CPF do cliente?");
-        inp2 = prompt();
-        console.log("Qual a idade do cliente?");
-        inp3 = prompt();
-        console.log("Qual o numero da conta do cliente?");
-        inp4 = prompt();
-        console.log("Qual a agencia do cliente?");
-        inp5 = prompt();
-        console.log("Qual o saldo do cliente?");
-        inp6 = prompt();
+        inp = prompt("Qual o nome do cliente?");
+        inp2 = prompt("Qual o CPF do cliente?");
+        inp3 = prompt("Qual a idade do cliente?");
+        inp4 = prompt("Qual o numero da conta do cliente?");
+        inp5 = prompt("Qual a agencia do cliente?");
+        inp6 = prompt("Qual o saldo do cliente?");
         cliente[c] = new Conta(inp,inp2,inp3,inp4,inp5,inp6,c);
         c++;
     }
 }
 
-function validacaoBC(variavel) {
+function validacaoBC() {
     if(banco[0]!=null && cliente[0]!=null) {
-        variavel.valor = "\n4-Informacoes Banco Cliente\n5-Transacoes\n6-Emprestimo";
+        document.getElementById("text").innerHTML = "Digite de acordo com a operacao que desejar:<br><br>1-Adicionar Banco<br>2-Cadastrar Cliente<br>3-Sair<br>4-Informacoes Banco Cliente<br>5-Transacoes<br>6-Emprestimo<br>";
+        valorbool=true;
     }
 }
 
@@ -164,54 +157,74 @@ function consultarClientes() {
     }
 }
 
-function carreguei() {
-    //document.getElementById("text").innerHTML += (`MENU<br>Digite de acordo com a operacao que desejar:<br>1-Adicionar Banco<br>2-Cadastrar Cliente<br>3-Sair${variavel.valor}<br>`);
-    document.write("Ola gay");
+function consultar() {
+    document.getElementById("operacoes").innerHTML += "aa";
+}
+function retirar() {
+    document.getElementById("operacoes").innerHTML += "bb";
+}
+function depositar() {
+    document.getElementById("operacoes").innerHTML += "cc";
 }
 
-while(true) {
-    carreguei();
-    carreguei();
-    carreguei();
-    console.log(`             MENU\nDigite de acordo com a operacao que desejar:\n1-Adicionar Banco\n2-Cadastrar Cliente\n3-Sair${variavel.valor}\n`);
-    if(variavel.valor==='') {
-        console.log("Cadastre pelo menos um banco e um cliente para realizar mais operacoes!\n");
-        valorbool=true;
-    }
-    input = prompt("MENU");
+function fechar() {
+    document.getElementById("tabela").innerHTML = '';
+}
 
-    if(input==="3") {
-        confirm("Tem certeza que deseja sair?");
-        break;
-    }
-    else if(input==="1") {
-        console.log("Quantos bancos deseja cadastrar?");
-        input2 = prompt();
+function selecionar() {
+    document.getElementById("operacoes").innerHTML += "Ola";
+}
+
+function voltarHome() {
+    window.open("main.html","_self");
+}
+function clicar() {
+    if(document.getElementById("entrada").value != '') {
+    let m = document.getElementById("entrada").value;
+    if(m==="1") {
+        input2 = prompt("Quantos bancos deseja cadastrar?");
         abrirBanco(input2);
     }
-    else if(input==="2") {
-        console.log("Quantos clientes deseja cadastrar?");
-        input2 = prompt();
+    else if(m==="2") {
+        input2 = prompt("Quantos clientes deseja cadastrar?");
         abrirConta(input2);
     }
-    else if(input==="4") {
+    else if(m==="3") {
+        window.close();
+    }
+    else if(m==4) {         // == '!=' ===
         if(valorbool===true){
-        console.log("Qual tipo de informacoes precisa?\n1-Bancos Cadastrados\n2-Clientes Cadastrados");
-        input2 = prompt();
-        if(input2==="1"){
-            consultarBancos();
-        }
-        else if(input2==="2") {
-            consultarClientes();
+            input2 = prompt("Qual tipo de informacoes precisa?\n1-Bancos Cadastrados\n2-Clientes Cadastrados");
+            if(input2==="1"){
+                consultarBancos();
+                document.getElementById("tabela").innerHTML = ''; 
+                //consulta
+        if(document.getElementById("tabela").innerHTML == ''){
+            document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><button type="button" onClick=fechar()>X</button><table border="5"><tr><th>Cliente</th><th>Banco</th></tr><tr><td>'+'cliente'+
+            '</td><td>'+'cliente2'
+            +'</td></tr><tr><td>tabela3</td><td>tabela4</td></tr></table></div>';
+            }
+            //consulta
+            }
+            else if(input2==="2") {
+                consultarClientes();
+                document.getElementById("tabela").innerHTML = ''; 
+                //consulta
+        if(document.getElementById("tabela").innerHTML == ''){
+            document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><button type="button" onClick=fechar()>X</button><table border="5"><tr><th>Cliente</th><th>Banco</th></tr><tr><td>'+'banco2'+
+            '</td><td>'+'banco'
+            +'</td></tr><tr><td>tabela3</td><td>tabela4</td></tr></table></div>';
+            }
+            //consulta
+            }
         }
     }
-}
-    else if(input==="5") {
-        if(valorbool===true) {
-
-        }
+    else if(m==="5") {
+        
+            window.open("transferencia.html","_self");
+        
     }
-    else if(input==="6") {
+    else if(m==="6") {
         if(valorbool===true) {
             
         }
@@ -219,6 +232,6 @@ while(true) {
     else {
         console.log("Por favor, digite uma opcao valida!!");
     }
-    validacaoBC(variavel);
+    validacaoBC();
+    }
 }
-
