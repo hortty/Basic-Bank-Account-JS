@@ -1,6 +1,7 @@
 const cliente = [], banco=[];
 let input = '', input2=0, cont=0, i=0, c=0, b=0;
-let valorbool = false;
+let print1,print2,print3;
+let valorbool = false, vbool=false, vbool2=false;
 let variavel = {
     valor: ''
 }
@@ -61,7 +62,7 @@ class Conta extends Pessoa {
         return this.#numero_conta;
     }
     get agencia() {
-        return this.#agencia;
+    return this.#agencia;
     }
     set saldo(s) {
         this.#saldo = s;
@@ -157,14 +158,57 @@ function consultarClientes() {
     }
 }
 
+function saiuCampo() {
+    if(vbool===false) {
+        let compare = document.getElementById("cliente").value;
+        console.log(cliente[0].nome);
+        console.log(compare);
+    for(i=0;i<c;i++) {        //colocar clientes no for
+        if(cliente[i].nome === compare) {
+            vbool=true;
+            i=c;
+            print3=cliente[i].saldo;
+            document.getElementById("cdr").innerHTML += "cliente "+cliente[i].nome + " e na variavel " + compare;
+        }
+    }
+}
+    if(vbool === false) {
+        alert("Esse cliente nao existe no registro!");
+    }
+}
+
+function saiuCampo2() {
+    if(vbool2===false) {
+        let compare2 = document.getElementById("banco").value;
+        console.log(banco[0].nome_banco);
+        console.log(compare2);
+        for(i=0;i<b;i++) {
+            if(banco[i].nome_banco === compare2) {
+                vbool2=true;
+                i=b;
+                document.getElementById("cdr").innerHTML += "<br><br>"+banco[i].nome + " e na variavel " + compare2;
+            }
+        }
+}
+    if(vbool2 === false) {
+        alert("Esse banco nao existe no registro!");
+    }
+    if((vbool===true && vbool2===true)) {
+        document.getElementById("cdr").innerText = "<br>O cliente "+print1+" possui exatamente R$ "+print3+" em sua conta do banco "+print2;
+    }
+}
+
 function consultar() {
-    document.getElementById("operacoes").innerHTML += "aa";
+    vbool=false, vbool2=false;
+    document.getElementById("cdr").innerText = '';
+    document.getElementById("cdr").innerHTML += "<br><label for='cliente'><b>Nome cliente:  </b></label><input type='text' name='text' id='cliente' onBlur='saiuCampo()'></input><br>";
+    document.getElementById("cdr").innerHTML += "<br><label for='banco'><b>Nome banco:  </b></label><input type='text' name='text2' id='banco' onBlur='saiuCampo2()'></input><br>";
 }
 function retirar() {
-    document.getElementById("operacoes").innerHTML += "bb";
+    document.getElementById("operacoes").innerHTML += "b";
 }
 function depositar() {
-    document.getElementById("operacoes").innerHTML += "cc";
+    document.getElementById("operacoes").innerHTML += "c";
 }
 
 function fechar() {
@@ -220,9 +264,7 @@ function clicar() {
         }
     }
     else if(m==="5") {
-        
-            window.open("transferencia.html","_self");
-        
+        document.getElementById("geral").innerHTML = '<div align="left"><button id="voltar" type="button" onClick="voltarHome()">←</button><label for="voltar">&nbsp;&nbsp; Voltar</label></div><br><br><br><br><br><br><br><br><br><br><br><br><div align="center" style="background-color: black;padding: 18px;"><div align="center" id="titulo" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 2px;"><h2>TRANSACOES</h2></div><br><div align="center" id="operacoes" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 4px;"><h4>Consultar Saldo</h4><h4>Depositar dinheiro</h4><h4>Retirar dinheiro</h4><select onchange="{if(this.options[this.selectedIndex].onclick != null){this.options[this.selectedIndex].onclick(this);}}"><option value="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Escolha:</option><option onclick="consultar();" value="A">Calcular Saldo</option><option onclick="depositar();" value="B">Depositar na conta</option><option onclick="retirar();" value="C">Retirar da conta</option></select></div><br><div id="cdr" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 0px;"></div></div>';
     }
     else if(m==="6") {
         if(valorbool===true) {
