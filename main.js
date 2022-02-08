@@ -2,6 +2,9 @@ const cliente = [], banco=[];
 let input = '', input2=0, cont=0, i=0, c=0, b=0, j=0;
 let print1,print2,print3;
 let valorbool = false, vbool=false, vbool2=false, existe=false, flag=false;
+let agenciaconta = {
+    valor: ''
+};
 
 class Pessoa {
     _nome
@@ -75,6 +78,9 @@ class Conta extends Pessoa {
     get saldo() {
         return this._saldo;
     }
+    get id() {
+        return this.#id;
+    }
     fazerEmprestimo(valor) {
         valor=parseFloat(valor);
         this._saldo+=valor;
@@ -108,6 +114,9 @@ class Banco {
     }
     get agencia() {
         return this._agencia;
+    }
+    get id() {
+        return this.#id;
     }
     consultarSaldo(conta_cliente) {
         this.c1 = conta_cliente;
@@ -231,6 +240,7 @@ function saiuCampo() {
             if(compare===cliente[i].nome) {
                 print1 = cliente[i].nome;
                 print3 = cliente[i].saldo;
+                agenciaconta.valor = cliente[i].agencia;
                 vbool=true;
             }
     }
@@ -245,13 +255,18 @@ function saiuCampo2() {
         let compare2 = document.getElementById("banco").value;
         for(i=0;i<b;i++) {
             if(compare2 === banco[i].nome_banco) {
+                if(banco[i].agencia === agenciaconta.valor) {
                 vbool2=true;
                 print2 = banco[i].nome_banco;
+                }
+                else {
+                    alert("Essa conta nao possui cadastro no banco "+banco[i].nome_banco);
+                }
             }
         }
 }
     if(vbool2 === false) {
-        alert("Esse banco nao existe no registro!");
+        alert("Nao foi possivel fazer a consulta!");
     }
     if((vbool===true && vbool2===true)) {
         document.getElementById("cdr").innerHTML = "<br><b>O <i>cliente</i> "+print1+" possui exatamente R$"+print3+" em sua conta do <i>banco</i> "+print2+"</b><br><br>";
@@ -269,7 +284,7 @@ function retirar() {
     document.getElementById("cdr").innerHTML += '<br><label for="deposito"><b>Informe o numero da conta: </b><input type="text" name="texto" id="deposito"><br>';
     document.getElementById("cdr").innerHTML += '<br><label for="deposito2"><b>Informe a agencia: </b><input type="text" name="texto" id="deposito2"><br>';
     document.getElementById("cdr").innerHTML += '<br><label for="deposito3"><b>Informe o valor: </b><input type="text" name="texto" id="deposito3"><br><br>';
-    document.getElementById("cdr").innerHTML += '<br><label for="senha"><b>Informe a senha: </b><input type="text" name="texto" id="senha"><br>';
+    document.getElementById("cdr").innerHTML += '<br><label for="senha"><b>Informe a senha: </b><input type="password" name="texto" id="senha"><br>';
     document.getElementById("cdr").innerHTML += '<br><button type="button" onClick=botaoRetirar()>RETIRAR</button><br><br>';
 }
 
@@ -413,14 +428,14 @@ function clicar() {
                 document.getElementById("tabela").innerHTML = ''; 
                 document.getElementById("tabela").innerHTML += "<div style='background-color: white; color: black;padding: 1px;'><button type='button' onClick=fechar()>X</button></div>";
                 for(i=0;i<c;i++) {
-                    document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><table border="5">'+'<tr><th>id</th><th>nome</th><th>cpf</th><th>numero da conta</th><th>agencia</th><th>saldo</th></tr><tr><td>'+i+'</td>'+'<td>'+cliente[i].nome+'</td>'+'<td>'+cliente[i].cpf+'</td>'+'<td align="center">'+cliente[i].numero_conta+'</td>'+'<td align="center">'+cliente[i].agencia+'</td>'+'<td>'+cliente[i].saldo+'</td>'+'</tr></table></div><br>';
+                    document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><table border="5">'+'<tr><th>id</th><th>nome</th><th>cpf</th><th>numero da conta</th><th>agencia</th><th>saldo</th></tr><tr><td>'+cliente[i].id+'</td>'+'<td>'+cliente[i].nome+'</td>'+'<td>'+cliente[i].cpf+'</td>'+'<td align="center">'+cliente[i].numero_conta+'</td>'+'<td align="center">'+cliente[i].agencia+'</td>'+'<td>'+cliente[i].saldo+'</td>'+'</tr></table></div><br>';
                 }
             }
             else if(input2==="2") {
                 document.getElementById("tabela").innerHTML = ''; 
                 document.getElementById("tabela").innerHTML += "<div style='background-color: white; color: black;padding: 1px;'><button type='button' onClick=fechar()>X</button></div>";
                 for(i=0;i<b;i++) {
-                    document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><table border="5">'+'<tr><th>id</th><th>nome banco</th><th>cidade</th><th>agencia</th></tr><tr><td>'+i+'</td>'+'<td>'+banco[i].nome_banco+'</td>'+'<td>'+banco[i].cidade+'</td>'+'<td>'+banco[i].agencia+'</td>'+'</tr></table></div><br>';
+                    document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><table border="5">'+'<tr><th>id</th><th>nome banco</th><th>cidade</th><th>agencia</th></tr><tr><td>'+banco[i].id+'</td>'+'<td>'+banco[i].nome_banco+'</td>'+'<td>'+banco[i].cidade+'</td>'+'<td>'+banco[i].agencia+'</td>'+'</tr></table></div><br>';
                 }
             }
         }
