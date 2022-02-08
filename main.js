@@ -2,9 +2,6 @@ const cliente = [], banco=[];
 let input = '', input2=0, cont=0, i=0, c=0, b=0, j=0;
 let print1,print2,print3;
 let valorbool = false, vbool=false, vbool2=false, existe=false, flag=false;
-let variavel = {
-    valor: ''
-}
 
 class Pessoa {
     _nome
@@ -78,6 +75,10 @@ class Conta extends Pessoa {
     get saldo() {
         return this._saldo;
     }
+    fazerEmprestimo(valor) {
+        valor=parseFloat(valor);
+        this._saldo+=valor;
+    }
 }
 
 class Banco {
@@ -113,12 +114,12 @@ class Banco {
         return `O cliente ${this.c1._nome}, idade ${this.c1._idade}, com o numero da conta ${this.c1.numero_conta} possui R$ ${this.c1.saldo} de saldo no banco ${this.#nome_banco}`;
         }
     depositarDinheiro(s, conta_cliente) {
-        s = parseInt(s);
+        s = parseFloat(s);
         this.c1 = conta_cliente;
         this.c1.saldo+=s;
     }
     retirarDinheiro(r, conta_cliente) {
-        r = parseInt(r);
+        r = parseFloat(r);
         this.c1 = conta_cliente;
         if((this.c1.saldo-r)>=0) {
         this.c1.saldo-=r;
@@ -162,6 +163,7 @@ function abrirConta(num) {
     let contador=0;
     if(flag===true) {
     for(i=0;i<num;i++) {
+        booleano=true;
         inp = prompt("Qual o nome do cliente?");
         inp2 = prompt("Qual o CPF do cliente?");
         inp3 = prompt("Qual a idade do cliente?");
@@ -179,6 +181,7 @@ function abrirConta(num) {
             }
             }
         while(booleano) {
+        booleano=true;
         inp5 = prompt("Qual a agencia do cliente?");
         for(j=0;j<b;j++) {
             if(banco[j].agencia===inp5) {
@@ -292,7 +295,7 @@ else {
     for(i=0;i<b;i++) {
             if(numagencia===banco[i].agencia) {
                     banco[i].retirarDinheiro(numvalor, cliente[aux]);
-                    document.getElementById("cdr").innerHTML = "<br><b>O novo valor da conta de "+cliente[aux].nome+" no banco "+banco[i].nome_banco+" é exatamente R$"+cliente[aux].saldo+"</b><br><br>";
+                    document.getElementById("cdr").innerHTML = "<br><b>O valor da conta de "+cliente[aux].nome+" no banco "+banco[i].nome_banco+" é exatamente R$"+cliente[aux].saldo+"</b><br><br>";
             }
         }
 }
@@ -334,6 +337,41 @@ else {
 }
 }
 
+function funcEmprestimo() {
+    let agenciacliente = document.getElementById("agenci").value;
+    let contacliente = document.getElementById("cont").value;
+    let valoremprestimo = document.getElementById("val").value;
+    let flag2=false;
+    for(i=0;i<c;i++) {
+        if(agenciacliente===cliente[i].agencia) {
+            if(contacliente===cliente[i].numero_conta) {
+                flag2=true;
+                if(cliente[i].saldo<500) {
+                    alert("Voce precisa de um saldo maior ou igual a 500 para realizar um emprestimo, valores inferiores a isso sao emprestimos de risco para o banco!");
+                }
+                else {
+                    if(valoremprestimo>2000 && cliente[i].saldo<1000) {
+                        alert("Voce precisa de um saldo igual ou superior a R$1000 para emprestar mais que 2mil reais.");
+                    }
+                    else if(valoremprestimo>10000 && cliente[i].saldo<5000) {
+                        alert("Voce precisa de um saldo igual ou superior a R$5000 para emprestar mais de 10mil reais");
+                    }
+                    else if(valoremprestimo<=0) {
+                        alert("O valor do emprestimo precisa ser maior que zero!");
+                    }
+                    else {
+                        cliente[i].fazerEmprestimo(valoremprestimo);
+                        alert("Emprestimo aceito, seu novo valor na conta eh: R$"+cliente[i].saldo);
+                    }
+                }
+            }
+        }
+    }
+    if(flag2===false) {
+        alert("cliente ou numero de conta invalidos!");
+    }
+    document.getElementById("tabela").innerHTML = ''; 
+}
 function fechar() {
     document.getElementById("tabela").innerHTML = '';
 }
@@ -344,7 +382,7 @@ function selecionar() {
 
 function voltarHome() {
     document.getElementById("geral").innerHTML = '';
-    document.getElementById("geral").innerHTML += '<div id="home" align="center" style="background-color: rgb(0, 0, 0); color:ghostwhite; padding: 18px;"><div><div id="menu" style="background-color: crimson;padding: 1px;"><h2>MENU</h2></div></div><br><div id="select" style="background-color: crimson;padding: 1px;"><br><p id="text">Digite de acordo com a operacao que desejar:<br><br>1-Adicionar Banco<br>2-Cadastrar Cliente<br>3-Sair<br></p><label for="entrada">Input: </label><input id="entrada" type="text" name="entrada" required><br><br><button type="button" onClick = "clicar()">Submit</button><br><br></div><br><div id="tabela"></div></div>';
+    document.getElementById("geral").innerHTML += '<div id="home" align="center" style="background-color: rgb(0, 0, 0); color:ghostwhite; padding: 18px;"><div><div id="menu" style="background-color: crimson;padding: 1px;"><h2>MENU</h2></div></div><br><div id="select" style="background-color: crimson;padding: 1px;"><br><p id="text">Digite de acordo com a operacao que desejar:<br><br>1-Adicionar Banco<br>2-Cadastrar Cliente<br>3-Sair<br></p><label for="entrada">Input: </label><input id="entrada" type="text" name="entrada" autofocus><br><br><button type="button" onClick = "clicar()">Submit</button><br><br></div><br><div id="tabela"></div></div>';
     document.getElementById("text").innerHTML = "Digite de acordo com a operacao que desejar:<br><br>1-Adicionar Banco<br>2-Cadastrar Cliente<br>3-Sair<br>4-Informacoes Banco Cliente<br>5-Transacoes<br>6-Emprestimo<br>";
 }
 function clicar() {
@@ -366,7 +404,6 @@ function clicar() {
         if(valorbool===true) {
             input2 = prompt("Qual tipo de informacoes precisa?\n1-Clientes Cadastrados\n2-Bancos Cadastrados");
             if(input2==="1") {
-                consultarClientes();
                 document.getElementById("tabela").innerHTML = ''; 
                 document.getElementById("tabela").innerHTML += "<div style='background-color: white; color: black;padding: 1px;'><button type='button' onClick=fechar()>X</button></div>";
                 for(i=0;i<c;i++) {
@@ -374,27 +411,34 @@ function clicar() {
                 }
             }
             else if(input2==="2") {
-                consultarBancos();
                 document.getElementById("tabela").innerHTML = ''; 
                 document.getElementById("tabela").innerHTML += "<div style='background-color: white; color: black;padding: 1px;'><button type='button' onClick=fechar()>X</button></div>";
                 for(i=0;i<b;i++) {
-                    document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><table border="5">'+'<tr><th>id</th><th>nome banco</th><th>cpf</th><th>cidade</th><th>agencia</th></tr><tr><td>'+i+'</td>'+'<td>'+banco[i].nome_banco+'</td>'+'<td>'+banco[i].cidade+'</td>'+'<td align="center">'+banco[i].agencia+'</td>'+'</tr></table></div><br>';
+                    document.getElementById("tabela").innerHTML += '<div style="background-color: white; color: black;padding: 1px;"><table border="5">'+'<tr><th>id</th><th>nome banco</th><th>cidade</th><th>agencia</th></tr><tr><td>'+i+'</td>'+'<td>'+banco[i].nome_banco+'</td>'+'<td>'+banco[i].cidade+'</td>'+'<td>'+banco[i].agencia+'</td>'+'</tr></table></div><br>';
                 }
             }
         }
     }
         //consulta
     else if(m==="5") {
+        if(valorbool===true) {
         document.getElementById("geral").innerHTML = '<div align="left"><button id="voltar" type="button" onClick="voltarHome()">←</button><label for="voltar">&nbsp;&nbsp; Voltar</label></div><br><br><br><br><br><br><br><br><br><br><br><br><div align="center" style="background-color: black;padding: 18px;"><div align="center" id="titulo" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 2px;"><h2>TRANSACOES</h2></div><br><div align="center" id="operacoes" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 4px;"><h4>Consultar Saldo</h4><h4>Depositar dinheiro</h4><h4>Retirar dinheiro</h4><select onchange="{if(this.options[this.selectedIndex].onclick !== null){this.options[this.selectedIndex].onclick(this);}}"><option value="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Escolha:</option><option onclick="consultar();" value="A">Consultar Saldo</option><option onclick="depositar();" value="B">Depositar na conta</option><option onclick="retirar();" value="C">Retirar da conta</option></select></div><br><div id="cdr" style="background-color: cadetblue;color:rgb(0, 0, 0); padding: 0px;"></div></div>';
+        }
     }
     else if(m==="6") {
         if(valorbool===true) {
-            
+            document.getElementById("tabela").innerHTML = ''; 
+            document.getElementById("tabela").innerHTML += "<label for='cont'>Insira o numero da conta do cliente: </label><input type='text' id='cont' name='conta'></input>";
+            document.getElementById("tabela").innerHTML += "<br><br><label for='agenci'>Insira o numero da agencia: </label><input type='text' id='agenci' name='agencia'></input><br><br>";
+            document.getElementById("tabela").innerHTML += "<label for='val'>Insira o valor do emprestimo: </label><input type='text' id='val' name='emp'></input><br><br>";
+            document.getElementById("tabela").innerHTML += "<button type='button' onClick='funcEmprestimo()'>Enviar</button><br><br>";
         }
     }
     else {
-        console.log("Por favor, digite uma opcao valida!!");
+        alert("Por favor, digite uma opcao valida!!");
     }
     validacaoBC();
     }
+    document.getElementById("entrada").value = '';
 }
+
