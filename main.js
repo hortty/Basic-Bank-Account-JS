@@ -134,7 +134,10 @@ function abrirBanco(num) {
     let inp='',inp2='',inp3='', flag3=true;
     flag=true;
     for(i=0;i<num;i++) {
-        inp = prompt("Qual o nome do banco?");
+        inp='';
+        while(inp==='') {
+            inp = prompt("Qual o nome do banco?");
+        }
         inp2 = prompt("Qual a cidade em que o banco se situa?");
         while(true) {
         flag3=true;
@@ -164,7 +167,10 @@ function abrirConta(num) {
     if(flag===true) {
     for(i=0;i<num;i++) {
         booleano=true;
-        inp = prompt("Qual o nome do cliente?");
+        inp='';
+        while(inp===''){
+            inp = prompt("Qual o nome do cliente?");
+        }
         inp2 = prompt("Qual o CPF do cliente?");
         inp3 = prompt("Qual a idade do cliente?");
         while(true) {
